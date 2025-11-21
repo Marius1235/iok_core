@@ -1,0 +1,59 @@
+[build-system]
+requires = ["setuptools>=80.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "iok-core"
+dynamic = ["version", "dependencies"]
+description = "Indre Østfold Kommune shared infrastructure: Redis, logging, tracing, rate-limiting"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [{name = "Marius Hanssen", email = "marius.hanssen@io.kommune.no"}]
+maintainers = [{name = "Marius Hanssen", email = "marius.hanssen@io.kommune.no"}]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Libraries :: Application Frameworks",
+]
+
+[project.urls]
+Repository = "https://github.com/Marius1235/iok_core"
+Documentation = "https://github.com/Marius1235/iok_core#readme"
+Issues = "https://github.com/Marius1235/iok_core/issues"
+
+[project.optional-dependencies]
+redis = [
+    "redis>=5.0.8",
+    "orjson>=3.10.7",
+]
+test = [
+    "pytest>=9.0.1",
+    "pytest-asyncio",           # latest supports pytest 9+
+    # "pytest-httpx>=0.35.0",     # works on pytest 9 despite old constraint
+    "pytest-mock>=3.14.0",
+    "fakeredis>=2.24.1",
+    "pytest-dotenv",
+]
+dev = [
+    "ruff>=0.6.0",
+    "mypy>=1.11.0",
+    "pre-commit>=3.8.0",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.dynamic]
+version = {attr = "iok_core.__version__"}
+dependencies = {file = ["requirements.txt"]}
+
+[tool.mypy]
+strict = true
+plugins = ["pydantic.mypy"]
+
+[tool.ruff]
+select = ["E", "F", "W", "I", "N", "B", "A", "C4", "UP", "PYI"]
+ignore = ["E501"]
