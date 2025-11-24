@@ -152,9 +152,10 @@ class RedisHandler:
         return url
     
 
+    @classmethod
     @asynccontextmanager
-    async def session(self, config: RedisSessionConfig = RedisSessionConfig()) -> AsyncIterator[Redis]:
-        client = await self.client()
+    async def session(cls, config: RedisSessionConfig = RedisSessionConfig()) -> AsyncIterator[Redis]:
+        client = await cls.client()
         try:
             if config.health_check:
                 await asyncio.wait_for(client.ping(), timeout=5)
